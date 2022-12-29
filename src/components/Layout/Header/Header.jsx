@@ -8,17 +8,17 @@ import {
   HStack,
   useDisclosure,
   VStack,
-} from '@chakra-ui/react';
-import React from 'react';
-import { ColorModeSwitcher } from '../../../ColorModeSwitcher';
-import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../../redux/actions/user';
+} from "@chakra-ui/react";
+import React from "react";
+import { ColorModeSwitcher } from "../../../ColorModeSwitcher";
+import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/actions/user";
 
-const LinkButton = ({ url = '/', title = 'Home', onClose }) => (
+const LinkButton = ({ url = "/", title = "Home", onClose }) => (
   <Link onClick={onClose} to={url}>
-    <Button variant={'ghost'}>{title}</Button>
+    <Button variant={"ghost"}>{title}</Button>
   </Link>
 );
 
@@ -34,17 +34,15 @@ const Header = ({ isAuthenticated = false, user }) => {
 
   return (
     <>
-      <ColorModeSwitcher />
-
       <Button
         onClick={onOpen}
-        colorScheme={'yellow'}
+        colorScheme={"yellow"}
         width="12"
-        height={'12'}
+        height={"12"}
         rounded="full"
-        zIndex={'overlay'}
-        position={'fixed'}
-        top="6"
+        zIndex={"overlay"}
+        position={"fixed"}
+        top="20"
         left="6"
       >
         <RiMenu5Fill />
@@ -53,10 +51,10 @@ const Header = ({ isAuthenticated = false, user }) => {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth={'1px'}>COURSE BUNDLER</DrawerHeader>
+          <DrawerHeader borderBottomWidth={"1px"}>COURSE BUNDLER</DrawerHeader>
 
           <DrawerBody>
-            <VStack spacing={'4'} alignItems="flex-start">
+            <VStack spacing={"4"} alignItems="flex-start">
               <LinkButton onClose={onClose} url="/" title="Home" />
               <LinkButton
                 onClose={onClose}
@@ -72,9 +70,9 @@ const Header = ({ isAuthenticated = false, user }) => {
               <LinkButton onClose={onClose} url="/about" title="About" />
 
               <HStack
-                justifyContent={'space-evenly'}
+                justifyContent={"space-evenly"}
                 position="absolute"
-                bottom={'2rem'}
+                bottom={"2rem"}
                 width="80%"
               >
                 {isAuthenticated ? (
@@ -82,20 +80,20 @@ const Header = ({ isAuthenticated = false, user }) => {
                     <VStack>
                       <HStack>
                         <Link onClick={onClose} to="/profile">
-                          <Button variant={'ghost'} colorScheme={'yellow'}>
+                          <Button variant={"ghost"} colorScheme={"yellow"}>
                             Profile
                           </Button>
                         </Link>
-                        <Button variant={'ghost'} onClick={logoutHandler}>
+                        <Button variant={"ghost"} onClick={logoutHandler}>
                           <RiLogoutBoxLine />
                           Logout
                         </Button>
                       </HStack>
 
-                      {user && user.role === 'admin' && (
+                      {user && user.role === "admin" && (
                         <Link onClick={onClose} to="/admin/dashboard">
-                          <Button colorScheme={'purple'} variant="ghost">
-                            <RiDashboardFill style={{ margin: '4px' }} />
+                          <Button colorScheme={"purple"} variant="ghost">
+                            <RiDashboardFill style={{ margin: "4px" }} />
                             Dashboard
                           </Button>
                         </Link>
@@ -105,13 +103,13 @@ const Header = ({ isAuthenticated = false, user }) => {
                 ) : (
                   <>
                     <Link onClick={onClose} to="/login">
-                      <Button colorScheme={'yellow'}>Login</Button>
+                      <Button colorScheme={"yellow"}>Login</Button>
                     </Link>
 
                     <p>OR</p>
 
                     <Link onClick={onClose} to="/register">
-                      <Button colorScheme={'yellow'}>Sign Up</Button>
+                      <Button colorScheme={"yellow"}>Sign Up</Button>
                     </Link>
                   </>
                 )}

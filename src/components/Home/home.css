@@ -53,3 +53,7 @@
 .course:hover {
   transform: translateY(-10px);
 }
+.image__slide {
+  width: 100%;
+  height: calc(100% + 50px);
+}

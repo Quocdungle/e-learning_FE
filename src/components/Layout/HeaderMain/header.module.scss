@@ -1,0 +1,112 @@
+.wrapper {
+  height: 60px;
+  box-shadow: 0px 3px 6px #00000029;
+  background-color: #f3f6f4;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 999;
+  color: white;
+}
+.header {
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+    margin: auto 0;
+    cursor: pointer;
+    // object-fit: cover;
+  }
+  &__image {
+    height: 50px;
+    width: 100px;
+  }
+  &__account {
+    display: flex;
+    gap: 0 20px;
+    align-items: center;
+    // @include breakpoint(mobile) {
+    //   display: none;
+    // }
+  }
+
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: -10px;
+  }
+  &__drawer {
+    display: none;
+    // @include breakpoint(mobile) {
+    //   display: block;
+    // }
+  }
+  &__name {
+    font-weight: 600;
+    font-size: 13px;
+    height: 100%;
+    cursor: pointer;
+  }
+  &__mobile {
+    display: flex;
+    flex-direction: row;
+    gap: 0 20px;
+    align-items: center;
+    justify-content: flex-end;
+    p {
+      color: white;
+      font-weight: 600;
+      font-size: 13px;
+    }
+  }
+  &__dropdown {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+  }
+  //   &__dropdowncontent {
+  //     h3 {
+  //       font-weight: bold;
+  //     }
+  //     p {
+  //       &:last-child {
+  //         color: $dark-gray;
+  //         font-style: italic;
+  //       }
+  //     }
+  //   }
+  &__dropdownimage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  &__dropdownlogout {
+    display: flex;
+    padding-left: 20px;
+    align-items: center;
+  }
+  &__buttonlogout {
+    border: none;
+    background-color: unset !important;
+  }
+}
+:global {
+  //   .ant-drawer-header {
+  //     background-color: $primary !important;
+  //     height: $header-height;
+  //   }
+  //   .ant-drawer-close {
+  //     color: $white !important;
+  //   }
+}

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Button,
@@ -8,40 +7,49 @@ import {
   Stack,
   Text,
   VStack,
-} from '@chakra-ui/react';
-import './home.css';
-import { Link } from 'react-router-dom';
-import vg from '../../assets/images/bg.png';
-import { CgGoogle, CgYoutube } from 'react-icons/cg';
-import { SiCoursera, SiUdemy } from 'react-icons/si';
-import { DiAws } from 'react-icons/di';
-import introVideo from '../../assets/videos/intro.mp4';
+} from "@chakra-ui/react";
+import React from "react";
+import { CgGoogle, CgYoutube } from "react-icons/cg";
+import { Pagination, Navigation } from "swiper";
+import { DiAws } from "react-icons/di";
+import { SiCoursera, SiUdemy } from "react-icons/si";
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import vg from "../../assets/images/bg.png";
+import slider1 from "../../assets/images/slide1.png";
+import slider2 from "../../assets/images/slide2.png";
+import introVideo from "../../assets/videos/intro.mp4";
+import "./home.css";
 
 const Home = () => {
   return (
     <section className="home">
       <div className="container">
         <Stack
-          direction={['column', 'row']}
+          direction={["column", "row"]}
           height="100%"
-          justifyContent={['center', 'space-between']}
+          justifyContent={["center", "space-between"]}
           alignItems="center"
-          spacing={['16', '56']}
+          spacing={["16", "56"]}
         >
           <VStack
-            width={'full'}
-            alignItems={['center', 'flex-end']}
+            width={"full"}
+            alignItems={["center", "flex-end"]}
             spacing="8"
           >
-            <Heading children="LEARN FROM THE EXPERTS" size={'2xl'} />
+            <Heading children="LEARN FROM THE EXPERTS" size={"2xl"} />
             <Text
-              fontSize={'2xl'}
+              fontSize={"2xl"}
               fontFamily="cursive"
-              textAlign={['center', 'left']}
+              textAlign={["center", "left"]}
               children="Find Valuable Content At Reasonable Price"
             />
             <Link to="/courses">
-              <Button size={'lg'} colorScheme="yellow">
+              <Button size={"lg"} colorScheme="yellow">
                 Explore Now
               </Button>
             </Link>
@@ -49,23 +57,23 @@ const Home = () => {
 
           <Image
             className="vector-graphics"
-            boxSize={'md'}
+            boxSize={"md"}
             src={vg}
             objectFit="contain"
           />
         </Stack>
       </div>
 
-      <Box padding={'8'} bg="blackAlpha.800">
+      <Box padding={"8"} bg="blackAlpha.800">
         <Heading
-          textAlign={'center'}
+          textAlign={"center"}
           fontFamily="body"
-          color={'yellow.400'}
+          color={"yellow.400"}
           children="OUR BRANDS"
         />
         <HStack
           className="brandsBanner"
-          justifyContent={'space-evenly'}
+          justifyContent={"space-evenly"}
           marginTop="4"
         >
           <CgGoogle />
@@ -75,6 +83,25 @@ const Home = () => {
           <DiAws />
         </HStack>
       </Box>
+
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={30}
+        loop={true}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        className="mySwiper"
+      >
+        <SwiperSlide>
+          <img src={slider1} alt="" className="image__slide" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src={slider2} alt="" className="image__slide" />
+        </SwiperSlide>
+      </Swiper>
 
       <div className="container2">
         <video
