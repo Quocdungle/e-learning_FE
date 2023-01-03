@@ -10,10 +10,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
-import { ColorModeSwitcher } from "../../../ColorModeSwitcher";
 import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from "react-icons/ri";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { logout } from "../../../redux/actions/user";
 
 const LinkButton = ({ url = "/", title = "Home", onClose }) => (

@@ -10,24 +10,43 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { CgGoogle, CgYoutube } from "react-icons/cg";
-import { Pagination, Navigation } from "swiper";
 import { DiAws } from "react-icons/di";
 import { SiCoursera, SiUdemy } from "react-icons/si";
 import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper";
 import "swiper/css";
-import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
 import vg from "../../assets/images/bg.png";
-import slider1 from "../../assets/images/slide1.png";
-import slider2 from "../../assets/images/slide2.png";
+import slider1 from "../../assets/images/slide1.jpg";
 import introVideo from "../../assets/videos/intro.mp4";
 import "./home.css";
 
 const Home = () => {
   return (
     <section className="home">
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={30}
+        loop={true}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        className="mySwiper"
+      >
+        <SwiperSlide>
+          <img src={slider1} alt="" className="image__slide" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src={slider1} alt="" className="image__slide" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src={slider1} alt="" className="image__slide" />
+        </SwiperSlide>
+      </Swiper>
       <div className="container">
         <Stack
           direction={["column", "row"]}
@@ -83,25 +102,6 @@ const Home = () => {
           <DiAws />
         </HStack>
       </Box>
-
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={30}
-        loop={true}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
-        className="mySwiper"
-      >
-        <SwiperSlide>
-          <img src={slider1} alt="" className="image__slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={slider2} alt="" className="image__slide" />
-        </SwiperSlide>
-      </Swiper>
 
       <div className="container2">
         <video
