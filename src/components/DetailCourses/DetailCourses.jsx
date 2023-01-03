@@ -1,17 +1,97 @@
-import { Button, Container, Stack } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { addToPlaylist } from '../../redux/actions/profile';
-import { loadUser } from '../../redux/actions/user';
-import './courses.scss';
-import vg from '../../assets/images/bg.png';
+import {
+  Button,
+  Container,
+  Heading,
+  HStack,
+  Image,
+  Input,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCourses } from "../../redux/actions/course";
+import toast from "react-hot-toast";
+import { addToPlaylist } from "../../redux/actions/profile";
+import { loadUser } from "../../redux/actions/user";
+import { Pagination } from "antd";
+import "./courses.scss";
+
+const Course = ({
+  views,
+  title,
+  imageSrc,
+  id,
+  addToPlaylistHandler,
+  creator,
+  description,
+  lectureCount,
+  loading,
+}) => {
+  return (
+    <VStack className="course" alignItems={["center", "flex-start"]}>
+      <Image src={imageSrc} boxSize="60" objectFit={"contain"} />
+      <Heading
+        textAlign={["center", "left"]}
+        maxW="200px"
+        size={"sm"}
+        fontFamily={"sans-serif"}
+        noOfLines={3}
+        children={title}
+      />
+      <Text noOfLines={2} children={description} />
+
+      <HStack>
+        <Text
+          fontWeight={"bold"}
+          textTransform="uppercase"
+          children={"Creator"}
+        />
+
+        <Text
+          fontFamily={"body"}
+          textTransform="uppercase"
+          children={creator}
+        />
+      </HStack>
+
+      <Heading
+        textAlign={"center"}
+        size="xs"
+        children={`Lectures - ${lectureCount}`}
+        textTransform="uppercase"
+      />
+
+      <Heading
+        size="xs"
+        children={`Views - ${views}`}
+        textTransform="uppercase"
+      />
+
+      <Stack direction={["column", "row"]} alignItems="center">
+        <Link to={`/course/${id}`}>
+          <Button colorScheme={"yellow"}>Watch Now</Button>
+        </Link>
+        <Button
+          isLoading={loading}
+          variant={"ghost"}
+          colorScheme={"yellow"}
+          onClick={() => addToPlaylistHandler(id)}
+        >
+          Add to playlist
+        </Button>
+      </Stack>
+    </VStack>
+  );
+};
 
 const DetailCourses = () => {
   const searchParams = useParams();
   const idCourse = searchParams.idCourse;
-  const [keyword, setKeyword] = useState('');
-  const [category, setCategory] = useState('');
+  const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("");
   const dispatch = useDispatch();
 
   const addToPlaylistHandler = async (couseId) => {
@@ -20,139 +100,109 @@ const DetailCourses = () => {
   };
 
   const categories = [
-    'Web development',
-    'Artificial Intellegence',
-    'Data Structure & Algorithm',
-    'App Development',
-    'Data Science',
-    'Game Development',
+    "Web development",
+    "Artificial Intellegence",
+    "Data Structure & Algorithm",
+    "App Development",
+    "Data Science",
+    "Game Development",
   ];
 
+  const { loading, courses, error, message } = useSelector(
+    (state) => state.course
+  );
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(9);
+
+  useEffect(() => {
+    dispatch(getAllCourses(category, keyword));
+
+    if (error) {
+      toast.error(error);
+      dispatch({ type: "clearError" });
+    }
+
+    if (message) {
+      toast.success(message);
+      dispatch({ type: "clearMessage" });
+    }
+  }, [category, keyword, dispatch, error, message]);
+
+  const indexOfLastPost = page * limit;
+  const indexOfFirstPost = indexOfLastPost - limit;
+  let currentCoures = [];
+  currentCoures = courses.slice(indexOfFirstPost, indexOfLastPost);
+
+  //page
+  const handleOnPageChange = (page) => {
+    setPage(page);
+  };
+  const onShowSizeChange = (current, pageSize) => {
+    setLimit(pageSize);
+  };
   return (
-    <Container minH={'95vh'} maxW='container.lg' paddingY={'8'}>
-      <div className='wrapper'>
-        <div className='imageDetail'>
-          <img src={vg} alt='' />
-        </div>
-        <div className='informationDetail'>
-          <p className='title'>Dung an lz</p>
-          <span className='id'>Course ID: 123123</span>
-          <hr />
-          <div className='ratings'>star</div>
-          <hr />
-          <Stack
-            direction={['column', 'row']}
-            alignItems='center'
-            marginTop={'20px'}
-            marginBottom={'20px'}
-          >
-            <Link to={`/course/`}>
-              <Button colorScheme={'yellow'}>Watch Now</Button>
-            </Link>
-            <Button
-              // isLoading={loading}
-              variant={'ghost'}
-              colorScheme={'yellow'}
-              // onClick={() => addToPlaylistHandler(id)}
-            >
-              Add to playlist
-            </Button>
-          </Stack>
-          <div className='description'>
-            <p>Description: </p>
-            <h1>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore
-              necessitatibus exercitationem commodi dignissimos officiis, et
-              incidunt quas architecto alias quam beatae consectetur tenetur,
-              dolorum quod nesciunt. Rerum animi consectetur dolorum unde
-              expedita reiciendis laboriosam iste pariatur vero libero. Omnis,
-              saepe!
-            </h1>
-          </div>
-        </div>
-      </div>
+    <Container minH={"95vh"} maxW="container.lg" paddingY={"8"}>
+      <Heading children="All Courses" m={"8"} />
 
-      <hr />
+      <Input
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+        placeholder="Search a course..."
+        type={"text"}
+        focusBorderColor="yellow.500"
+      />
 
-      <div className='wrapper2'>
-        <div className='comments'>
-          {/* Input bỏ vào đây nhé thằng loz */}
+      <HStack
+        overflowX={"auto"}
+        paddingY="8"
+        css={{
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
+        {categories.map((item, index) => (
+          <Button key={index} onClick={() => setCategory(item)} minW={"60"}>
+            <Text children={item} />
+          </Button>
+        ))}
+      </HStack>
 
-          <div className='commentBox'>
-            <div className='avatar'>
-              <img src={vg} alt='' />
-            </div>
-            <div className='inforUser'>
-              <p className='userName'>Dungloz</p>
-              <p className='comment'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Assumenda, nisi?
-              </p>
-            </div>
-          </div>
-          <div className='commentBox'>
-            <div className='avatar'>
-              <img src={vg} alt='' />
-            </div>
-            <div className='inforUser'>
-              <p className='userName'>Dungloz</p>
-              <p className='comment'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Assumenda, nisi?
-              </p>
-            </div>
-          </div>
-          <div className='commentBox'>
-            <div className='avatar'>
-              <img src={vg} alt='' />
-            </div>
-            <div className='inforUser'>
-              <p className='userName'>Dungloz</p>
-              <p className='comment'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Assumenda, nisi?
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className='comments'>
-          <div className='commentBox'>
-            <div className='avatar'>
-              <img src={vg} alt='' />
-            </div>
-            <div className='inforUser'>
-              <p className='userName'>Dungloz</p>
-              <p className='comment'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Assumenda, nisi?
-              </p>
-            </div>
-          </div>
-          <div className='commentBox'>
-            <div className='avatar'>
-              <img src={vg} alt='' />
-            </div>
-            <div className='inforUser'>
-              <p className='userName'>Dungloz</p>
-              <p className='comment'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Assumenda, nisi?
-              </p>
-            </div>
-          </div>
-          <div className='commentBox'>
-            <div className='avatar'>
-              <img src={vg} alt='' />
-            </div>
-            <div className='inforUser'>
-              <p className='userName'>Dungloz</p>
-              <p className='comment'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Assumenda, nisi?
-              </p>
-            </div>
-          </div>
-        </div>
+      <Stack
+        direction={["column", "row"]}
+        flexWrap="wrap"
+        justifyContent={["flex-start", "space-evenly"]}
+        alignItems={["center", "flex-start"]}
+      >
+        {currentCoures.length > 0 ? (
+          currentCoures.map((item) => (
+            <Course
+              key={item._id}
+              title={item.title}
+              description={item.description}
+              views={item.views}
+              imageSrc={item.poster.url}
+              id={item._id}
+              creator={item.createdBy}
+              lectureCount={item.numOfVideos}
+              addToPlaylistHandler={addToPlaylistHandler}
+              loading={loading}
+            />
+          ))
+        ) : (
+          <Heading mt="4" children="Courses Not Found" />
+        )}
+      </Stack>
+      <div className="course__pagination">
+        <Pagination
+          total={courses.length}
+          defaultPageSize={limit}
+          defaultCurrent={page}
+          onChange={handleOnPageChange}
+          onShowSizeChange={onShowSizeChange}
+          current={page}
+          pageSize={limit}
+        />
       </div>
     </Container>
   );
