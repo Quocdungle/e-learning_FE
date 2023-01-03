@@ -1,16 +1,20 @@
 import classNames from "classnames/bind";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { ColorModeSwitcher } from "../../../ColorModeSwitcher";
 // import Button from "~/components/button";
 // import { logout } from "~/reducer/userSlice";
 // import routes from "~/routes/config/routes";
 import logo from "../../../assets/images/logoheader.png";
 import styles from "./header.module.scss";
+import { Button, HStack, VStack } from "@chakra-ui/react";
+import { RiDashboardFill, RiLogoutBoxLine } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/actions/user";
 
 const cx = classNames.bind(styles);
 
-function HeaderMain(props) {
+function HeaderMain({ isAuthenticated = false, user }) {
   let navigate = useNavigate();
 
   const [visible, setVisible] = useState(false);
@@ -19,7 +23,7 @@ function HeaderMain(props) {
     setVisible(true);
   };
 
-  const onClose = () => {
+  const onClose2 = () => {
     setVisible(false);
   };
   const content = (
@@ -32,7 +36,11 @@ function HeaderMain(props) {
   );
   const handleMenu = () => {
     navigate("/");
-    window.location.reload();
+  };
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
   };
   return (
     <div className={cx("wrapper")}>
@@ -48,33 +56,46 @@ function HeaderMain(props) {
           />
         </div>
         <div className={cx("header__account")}>
-          {/* <Badge count={5} size="small">
-                                <Bell />
-                            </Badge> */}
-          {/* <Popover
-            placement="bottomRight"
-            title={
-              <div className={cx("header__dropdown")}>
-                <Image
-                  src={`${process.env.REACT_APP_APIIMG}${dataUser.object?.image}`}
-                  alt="avatar"
-                  className={cx("header__dropdownimage")}
-                />
-                <div className={cx("header__dropdowncontent")}>
-                  <h3>{dataUser.object?.name}</h3>
-                  <p>{dataUser.object?.position}</p>
-                  <p>{dataUser.email}</p>
-                </div>
-              </div>
-            }
-            content={content}
-            trigger="click"
-          >
-            <Space className={cx("header__name")}>
-              {dataUser.object?.name}
-              <ArrowDown />
-            </Space>
-          </Popover> */}
+          <NavLink to="/courses" className={cx("header__account-text")}>
+            All Courses
+          </NavLink>
+          <NavLink to="/request" className={cx("header__account-text")}>
+            Request a Course
+          </NavLink>
+          <NavLink to="/contact" className={cx("header__account-text")}>
+            Contact Us
+          </NavLink>
+        </div>
+        <div className={cx("header__account")}>
+          {isAuthenticated ? (
+            <>
+              <VStack>
+                <HStack>
+                  <NavLink to="/profile">
+                    <Button colorScheme={"yellow"}>Profile</Button>
+                  </NavLink>
+                  {user && user.role === "admin" && (
+                    <NavLink to="/admin/dashboard">
+                      <Button colorScheme={"purple"}>Dashboard</Button>
+                    </NavLink>
+                  )}
+                  <Button onClick={logoutHandler} colorScheme={"red"}>
+                    Logout
+                  </Button>
+                </HStack>
+              </VStack>
+            </>
+          ) : (
+            <>
+              <NavLink to="/login">
+                <Button colorScheme={"yellow"}>Login</Button>
+              </NavLink>
+
+              <NavLink to="/register">
+                <Button colorScheme={"yellow"}>Sign Up</Button>
+              </NavLink>
+            </>
+          )}
           <ColorModeSwitcher />
         </div>
         <div className={cx("header__drawer")}>

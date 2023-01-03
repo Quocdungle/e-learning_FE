@@ -29,6 +29,7 @@ import { loadUser } from "./redux/actions/user";
 import { ProtectedRoute } from "protected-route-react";
 import Loader from "./components/Layout/Loader/Loader";
 import HeaderMain from "./components/Layout/HeaderMain/HeaderMain";
+import DetailCourses from "./components/DetailCourses/DetailCourses";
 
 function App() {
   window.addEventListener("contextmenu", (e) => {
@@ -63,7 +64,7 @@ function App() {
       ) : (
         <>
           <Header isAuthenticated={isAuthenticated} user={user} />
-          <HeaderMain />
+          <HeaderMain isAuthenticated={isAuthenticated} user={user} />
           <div
             style={{
               paddingTop: "60px",
@@ -72,6 +73,10 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/courses" element={<Courses />} />
+              <Route
+                path="/detailcourse/:idCourse"
+                element={<DetailCourses />}
+              />
 
               <Route
                 path="/course/:id"

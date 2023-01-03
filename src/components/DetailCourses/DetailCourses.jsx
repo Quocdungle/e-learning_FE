@@ -10,7 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCourses } from "../../redux/actions/course";
 import toast from "react-hot-toast";
@@ -87,7 +87,9 @@ const Course = ({
   );
 };
 
-const Courses = () => {
+const DetailCourses = () => {
+  const searchParams = useParams();
+  const idCourse = searchParams.idCourse;
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
   const dispatch = useDispatch();
@@ -206,4 +208,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default DetailCourses;
