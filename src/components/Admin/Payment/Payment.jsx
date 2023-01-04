@@ -1,3 +1,4 @@
+import { SearchOutlined } from "@ant-design/icons";
 import {
   Box,
   Button,
@@ -10,20 +11,18 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { Table as TableAnt } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { RiDeleteBin7Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import cursor from "../../../assets/images/cursor.png";
 import {
-  deleteUser,
+  activatePayment,
+  deactivatePayment,
   getAllUsers,
-  updateUserRole,
 } from "../../../redux/actions/admin";
 import Sidebar from "../Sidebar";
 
-const Users = () => {
+const Payment = () => {
   const { users, loading, error, message } = useSelector(
     (state) => state.admin
   );
@@ -32,12 +31,6 @@ const Users = () => {
 
   const dispatch = useDispatch();
 
-  const updateHandler = (userId) => {
-    dispatch(updateUserRole(userId));
-  };
-  const deleteButtonHandler = (userId) => {
-    dispatch(deleteUser(userId));
-  };
   const inputSearch = useRef();
 
   useEffect(() => {
@@ -57,6 +50,22 @@ const Users = () => {
       setLoadingApi(false);
     }, 1000);
   }, [dispatch, error, message]);
+  const handleDeActivePayment = async (id) => {
+    await dispatch(deactivatePayment(id));
+    setLoadingApi(true);
+    await dispatch(getAllUsers());
+    setTimeout(() => {
+      setLoadingApi(false);
+    }, 1000);
+  };
+  const handleActivePayment = async (id) => {
+    await dispatch(activatePayment(id));
+    setLoadingApi(true);
+    await dispatch(getAllUsers());
+    setTimeout(() => {
+      setLoadingApi(false);
+    }, 1000);
+  };
   const columns = [
     {
       title: "Id",
@@ -185,22 +194,27 @@ const Users = () => {
       ),
       render: (text, data) => (
         <HStack justifyContent={"flex-end"}>
-          <Button
-            onClick={() => updateHandler(data.Id)}
-            variant={"outline"}
-            color="purple.500"
-            isLoading={loading}
-          >
-            Change Role
-          </Button>
-
-          <Button
-            onClick={() => deleteButtonHandler(data.Id)}
-            color={"purple.600"}
-            isLoading={loading}
-          >
-            <RiDeleteBin7Fill />
-          </Button>
+          {data.Subscription && data.SubscriptionStatus === "active" ? (
+            <Button
+              onClick={() => handleDeActivePayment(data.Id)}
+              variant={"outline"}
+              color="red.500"
+              width={100}
+              isLoading={loading}
+            >
+              Deactivate
+            </Button>
+          ) : (
+            <Button
+              onClick={() => handleActivePayment(data.Id)}
+              variant={"outline"}
+              color="green.500"
+              width={100}
+              isLoading={loading}
+            >
+              Activate
+            </Button>
+          )}
         </HStack>
       ),
     },
@@ -265,4 +279,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Payment;
