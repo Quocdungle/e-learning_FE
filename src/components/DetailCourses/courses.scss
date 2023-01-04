@@ -43,40 +43,42 @@
     }
   }
 }
-.wrapper2 {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  .comments {
-    width: 50%;
-    
-    .commentBox {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin-top: 10px;
-      .avatar {
-        width: 50px;
-        height: 50px;
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
-      }
-      .inforUser {
-        margin-left: 10px;
-        .userName {
-          font-size: 16px;
-          font-weight: 600;
-        }
-        .comment {
-          font-size: 14px;
-        }
+.comments {
+  // width: 50%;
+
+  .commentBox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
       }
     }
+    .inforUser {
+      flex: 1;
+      margin-left: 10px;
+      .userName {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .comment {
+        font-size: 14px;
+      }
+    }
+    .icon {
+      display: flex;
+      justify-content: center;
+      width: 50px;
+      cursor: pointer;
+    }
   }
-  .ratings {
-    width: 50%;
-  }
+}
+.ratings {
+  width: 50%;
 }

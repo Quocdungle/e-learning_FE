@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,8 +9,8 @@ import {
   Tooltip,
   ArcElement,
   Legend,
-} from 'chart.js';
-import { Line, Doughnut } from 'react-chartjs-2';
+} from "chart.js";
+import { Line, Doughnut } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -30,11 +30,11 @@ export const LineChart = ({ views = [] }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom',
+        position: "bottom",
       },
       title: {
         display: true,
-        text: 'Yearly Views',
+        text: "Yearly Views",
       },
     },
   };
@@ -43,10 +43,10 @@ export const LineChart = ({ views = [] }) => {
     labels,
     datasets: [
       {
-        label: 'Views',
+        label: "Views",
         data: views,
-        borderColor: 'rgba(107,70,193,0.5)',
-        backgroundColor: '#6b46c1',
+        borderColor: "rgba(107,70,193,0.5)",
+        backgroundColor: "#6b46c1",
       },
     ],
   };
@@ -56,13 +56,13 @@ export const LineChart = ({ views = [] }) => {
 
 export const DoughnutChart = ({ users = [] }) => {
   const data = {
-    labels: ['Subscribed', 'Not Subscribed'],
+    labels: ["Subscribed", "Not Subscribed"],
     datasets: [
       {
-        label: 'Views',
+        label: "Total",
         data: users,
-        borderColor: ['rgb(62,12,171)', 'rgb(214,43,129)'],
-        backgroundColor: ['rgba(62,12,171,0.3)', 'rgba(214,43,129,0.3)'],
+        borderColor: ["rgb(62,12,171)", "rgb(214,43,129)"],
+        backgroundColor: ["rgba(62,12,171,0.3)", "rgba(214,43,129,0.3)"],
         borderWidth: 1,
       },
     ],
@@ -75,18 +75,18 @@ function getLastYearMonths() {
   const labels = [];
 
   const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const currentMonth = new Date().getMonth();
@@ -105,5 +105,5 @@ function getLastYearMonths() {
     labels.unshift(element);
   }
 
-  return labels;
+  return months;
 }

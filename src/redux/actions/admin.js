@@ -1,15 +1,15 @@
-import { server } from '../store';
-import axios from 'axios';
+import { server } from "../store";
+import axios from "axios";
 
-export const createCourse = formData => async dispatch => {
+export const createCourse = (formData) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        'Content-type': 'multipart/form-data',
+        "Content-type": "multipart/form-data",
       },
       withCredentials: true,
     };
-    dispatch({ type: 'createCourseRequest' });
+    dispatch({ type: "createCourseRequest" });
 
     const { data } = await axios.post(
       `${server}/createcourse`,
@@ -17,42 +17,42 @@ export const createCourse = formData => async dispatch => {
       config
     );
 
-    dispatch({ type: 'createCourseSuccess', payload: data.message });
+    dispatch({ type: "createCourseSuccess", payload: data.message });
   } catch (error) {
     dispatch({
-      type: 'createCourseFail',
+      type: "createCourseFail",
       payload: error.response.data.message,
     });
   }
 };
 
-export const deleteCourse = id => async dispatch => {
+export const deleteCourse = (id) => async (dispatch) => {
   try {
     const config = {
       withCredentials: true,
     };
-    dispatch({ type: 'deleteCourseRequest' });
+    dispatch({ type: "deleteCourseRequest" });
 
     const { data } = await axios.delete(`${server}/course/${id}`, config);
 
-    dispatch({ type: 'deleteCourseSuccess', payload: data.message });
+    dispatch({ type: "deleteCourseSuccess", payload: data.message });
   } catch (error) {
     dispatch({
-      type: 'deleteCourseFail',
+      type: "deleteCourseFail",
       payload: error.response.data.message,
     });
   }
 };
 
-export const addLecture = (id, formdata) => async dispatch => {
+export const addLecture = (id, formdata) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        'Content-type': 'multipart/form-data',
+        "Content-type": "multipart/form-data",
       },
       withCredentials: true,
     };
-    dispatch({ type: 'addLectureRequest' });
+    dispatch({ type: "addLectureRequest" });
 
     const { data } = await axios.post(
       `${server}/course/${id}`,
@@ -60,103 +60,131 @@ export const addLecture = (id, formdata) => async dispatch => {
       config
     );
 
-    dispatch({ type: 'addLectureSuccess', payload: data.message });
+    dispatch({ type: "addLectureSuccess", payload: data.message });
   } catch (error) {
     dispatch({
-      type: 'addLectureFail',
+      type: "addLectureFail",
       payload: error.response.data.message,
     });
   }
 };
 
-export const deleteLecture = (courseId, lectureId) => async dispatch => {
+export const deleteLecture = (courseId, lectureId) => async (dispatch) => {
   try {
     const config = {
       withCredentials: true,
     };
-    dispatch({ type: 'deleteLectureRequest' });
+    dispatch({ type: "deleteLectureRequest" });
 
     const { data } = await axios.delete(
       `${server}/lecture?courseId=${courseId}&lectureId=${lectureId}`,
       config
     );
 
-    dispatch({ type: 'deleteLectureSuccess', payload: data.message });
+    dispatch({ type: "deleteLectureSuccess", payload: data.message });
   } catch (error) {
     dispatch({
-      type: 'deleteLectureFail',
+      type: "deleteLectureFail",
       payload: error.response.data.message,
     });
   }
 };
 
-export const getAllUsers = () => async dispatch => {
+export const getAllUsers = () => async (dispatch) => {
   try {
     const config = {
       withCredentials: true,
     };
-    dispatch({ type: 'getAllUsersRequest' });
+    dispatch({ type: "getAllUsersRequest" });
 
     const { data } = await axios.get(`${server}/admin/users`, config);
 
-    dispatch({ type: 'getAllUsersSuccess', payload: data.users });
+    dispatch({ type: "getAllUsersSuccess", payload: data.users });
   } catch (error) {
     dispatch({
-      type: 'getAllUsersFail',
+      type: "getAllUsersFail",
       payload: error.response.data.message,
     });
   }
 };
 
-export const updateUserRole = id => async dispatch => {
+export const updateUserRole = (id) => async (dispatch) => {
   try {
     const config = {
       withCredentials: true,
     };
-    dispatch({ type: 'updateUserRoleRequest' });
+    dispatch({ type: "updateUserRoleRequest" });
 
     const { data } = await axios.put(`${server}/admin/user/${id}`, {}, config);
 
-    dispatch({ type: 'updateUserRoleSuccess', payload: data.message });
+    dispatch({ type: "updateUserRoleSuccess", payload: data.message });
   } catch (error) {
     dispatch({
-      type: 'updateUserRoleFail',
+      type: "updateUserRoleFail",
       payload: error.response.data.message,
     });
   }
 };
 
-export const deleteUser = id => async dispatch => {
+export const deleteUser = (id) => async (dispatch) => {
   try {
     const config = {
       withCredentials: true,
     };
-    dispatch({ type: 'deleteUserRequest' });
+    dispatch({ type: "deleteUserRequest" });
 
     const { data } = await axios.delete(`${server}/admin/user/${id}`, config);
 
-    dispatch({ type: 'deleteUserSuccess', payload: data.message });
+    dispatch({ type: "deleteUserSuccess", payload: data.message });
   } catch (error) {
     dispatch({
-      type: 'deleteUserFail',
+      type: "deleteUserFail",
       payload: error.response.data.message,
     });
   }
 };
 
-export const getDashboardStats = () => async dispatch => {
+export const getDashboardStats = () => async (dispatch) => {
   try {
     const config = {
       withCredentials: true,
     };
-    dispatch({ type: 'getAdminStatsRequest' });
+    dispatch({ type: "getAdminStatsRequest" });
 
     const { data } = await axios.get(`${server}/admin/stats`, config);
 
-    dispatch({ type: 'getAdminStatsSuccess', payload: data });
+    dispatch({ type: "getAdminStatsSuccess", payload: data });
   } catch (error) {
     dispatch({
-      type: 'getAdminStatsFail',
+      type: "getAdminStatsFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+export const activatePayment = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "activatePayment" });
+
+    const { message } = await axios.put(`${server}/subscribe/info/${id}`);
+
+    dispatch({ type: "activatePaymentSuccess", payload: message });
+  } catch (error) {
+    dispatch({
+      type: "activatePaymentFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+export const deactivatePayment = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "deactivatePayment" });
+
+    const { message } = await axios.delete(`${server}/subscribe/info/${id}`);
+
+    dispatch({ type: "deactivatePaymentSuccess", payload: message });
+  } catch (error) {
+    dispatch({
+      type: "deactivatePaymentFail",
       payload: error.response.data.message,
     });
   }

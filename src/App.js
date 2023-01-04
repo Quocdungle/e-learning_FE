@@ -30,6 +30,7 @@ import { ProtectedRoute } from "protected-route-react";
 import Loader from "./components/Layout/Loader/Loader";
 import HeaderMain from "./components/Layout/HeaderMain/HeaderMain";
 import DetailCourses from "./components/DetailCourses/DetailCourses";
+import Payment from "./components/Admin/Payment/Payment";
 
 function App() {
   window.addEventListener("contextmenu", (e) => {
@@ -75,7 +76,12 @@ function App() {
               <Route path="/courses" element={<Courses />} />
               <Route
                 path="/detailcourse/:idCourse"
-                element={<DetailCourses />}
+                element={
+                  <DetailCourses
+                    isAuthenticated={isAuthenticated}
+                    user={user}
+                  />
+                }
               />
 
               <Route
@@ -223,6 +229,18 @@ function App() {
                     isAdmin={user && user.role === "admin"}
                   >
                     <Users />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/payment"
+                element={
+                  <ProtectedRoute
+                    adminRoute={true}
+                    isAuthenticated={isAuthenticated}
+                    isAdmin={user && user.role === "admin"}
+                  >
+                    <Payment />
                   </ProtectedRoute>
                 }
               />
