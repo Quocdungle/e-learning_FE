@@ -20,6 +20,8 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import vg from "../../assets/images/bg.png";
 import slider1 from "../../assets/images/slide1.jpg";
+import slider2 from "../../assets/images/slide2.jpg";
+import slider3 from "../../assets/images/slide3.jpg";
 import introVideo from "../../assets/videos/intro.mp4";
 import "./home.css";
 
@@ -41,10 +43,10 @@ const Home = () => {
           <img src={slider1} alt="" className="image__slide" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={slider1} alt="" className="image__slide" />
+          <img src={slider2} alt="" className="image__slide" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={slider1} alt="" className="image__slide" />
+          <img src={slider3} alt="" className="image__slide" />
         </SwiperSlide>
       </Swiper>
       <div className="container">

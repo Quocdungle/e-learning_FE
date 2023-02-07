@@ -55,8 +55,10 @@ function App() {
   }, [dispatch, error, message]);
 
   useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <Router>
