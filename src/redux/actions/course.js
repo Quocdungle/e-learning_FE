@@ -1,6 +1,18 @@
 import { server } from "../store";
 import axios from "axios";
 
+
+export const getRecommendationCourse = (userId) => async (dispatch) => {
+  try {
+    dispatch({ type: "getCourseRecommendRequest" });
+
+    const { data } = await axios.get(`${server}/recommendation/${userId}`);
+    dispatch({ type: "getCourseRecommendSuccess", payload: data });
+  } catch (error) {
+    console.log('Failed to get data');
+  }
+}
+
 export const getAllCourses =
   (category = "", keyword = "") =>
   async (dispatch) => {
