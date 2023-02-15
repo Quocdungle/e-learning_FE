@@ -14,7 +14,13 @@ export const courseReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
-
+    getCourseRecommendRequest: state => {
+      state.loading = true;
+    },
+    getCourseRecommendSuccess: (state, action) => {
+      state.courseRecommend = action.payload;
+      state.loading = false;
+    },
     getCourseRequest: state => {
       state.loading = true;
     },
