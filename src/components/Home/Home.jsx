@@ -33,10 +33,10 @@ import {
 const Home = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
+  const allCourses = useSelector((state) => state?.course?.courses);
   const courseRecommend = useSelector(
     (state) => state?.course?.courseRecommend?.predicted_vehicle
   );
-  const allCourses = useSelector((state) => state?.course?.courses);
 
   const [courses, setCourses] = useState(null);
 
@@ -46,21 +46,20 @@ const Home = () => {
   // console.log(userId, courseRecommend, bestFiveCourses);
 
   useEffect(() => {
-    console.log('vao day');
     dispatch(getAllCourses());
-    if (userId) {
-      dispatch(getRecommendationCourse(userId));
-      console.log('1', courseRecommend);
-      setCourses(courseRecommend);
-      console.log('2', courseRecommend);
-    } else {
-      setCourses(bestFiveCourses);
-    }
+    dispatch(getRecommendationCourse(userId));
   }, []);
 
-  console.log('3');
+  useEffect(() => {
+    if (userId) {
+      setCourses(courseRecommend);
+    } else {
+      console.log('set lai ne');
+      setCourses(bestFiveCourses);
+    }
+  }, [courseRecommend, courseRecommend]);
 
-  // console.log('course', courses);
+  console.log('course 3', courses, bestFiveCourses, allCourses);
 
   return (
     <section className='home'>
@@ -145,66 +144,17 @@ const Home = () => {
         <h1>Recommend For You </h1>
         <hr />
         <div className='slider'>
-          <div className='slide'>
-            <img
-              src='https://res.cloudinary.com/dx0iglxwd/image/upload/v1658928826/wb7a1sc7t0jbbiqjs8q6.jpg'
-              alt=''
-            />
-            <div className='summary-course'>
-              <p className='title'>
-                Learning Python for Data Analysis and Visualization Ver 1
-              </p>
-              <p className='author'>Chau Dang</p>
+          {courses?.map((course) => (
+            <div className='slide'>
+              <div className='imgBox'>
+                <img src={course?.poster?.url} alt='' />
+              </div>
+              <div className='summary-course'>
+                <p className='title'>{course?.title}</p>
+                <p className='author'>{course?.createdBy}</p>
+              </div>
             </div>
-          </div>
-          <div className='slide'>
-            <img
-              src='https://res.cloudinary.com/doyukkxse/image/upload/v1672916278/rztmve33v4voabxwihsj.jpg'
-              alt=''
-            />
-            <div className='summary-course'>
-              <p className='title'>
-                Learning Python for Data Analysis and Visualization Ver 1
-              </p>
-              <p className='author'>Chau Dang</p>
-            </div>
-          </div>
-          <div className='slide'>
-            <img
-              src='https://res.cloudinary.com/dx0iglxwd/image/upload/v1658928826/wb7a1sc7t0jbbiqjs8q6.jpg'
-              alt=''
-            />
-            <div className='summary-course'>
-              <p className='title'>
-                Learning Python for Data Analysis and Visualization Ver 1
-              </p>
-              <p className='author'>Chau Dang</p>
-            </div>
-          </div>
-          <div className='slide'>
-            <img
-              src='https://res.cloudinary.com/dx0iglxwd/image/upload/v1658928826/wb7a1sc7t0jbbiqjs8q6.jpg'
-              alt=''
-            />
-            <div className='summary-course'>
-              <p className='title'>
-                Learning Python for Data Analysis and Visualization Ver 1
-              </p>
-              <p className='author'>Chau Dang</p>
-            </div>
-          </div>
-          <div className='slide'>
-            <img
-              src='https://res.cloudinary.com/dx0iglxwd/image/upload/v1658928826/wb7a1sc7t0jbbiqjs8q6.jpg'
-              alt=''
-            />
-            <div className='summary-course'>
-              <p className='title'>
-                Learning Python for Data Analysis and Visualization Ver 1
-              </p>
-              <p className='author'>Chau Dang</p>
-            </div>
-          </div>
+          ))}
         </div>
         <hr />
       </div>
