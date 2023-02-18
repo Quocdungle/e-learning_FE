@@ -71,6 +71,36 @@ export const logout = () => async (dispatch) => {
   }
 };
 
+export const momopayment = (idUser) => async (dispatch) => {
+  try {
+    dispatch({ type: "momopayment" });
+
+    await axios.get(`${server}/pay/momo/${idUser}`, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    dispatch({
+      type: "momofaild",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const vnpayment = (idUser) => async (dispatch) => {
+  try {
+    dispatch({ type: "vnpayment" });
+
+    await axios.get(`${server}/pay/vnpay/${idUser}`, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    dispatch({
+      type: "vnpayfaild",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 export const buySubscription = () => async (dispatch) => {
   try {
     dispatch({ type: "buySubscriptionRequest" });

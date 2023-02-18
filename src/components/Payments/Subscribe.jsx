@@ -1,21 +1,15 @@
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { buySubscription } from "../../redux/actions/user";
-import { server } from "../../redux/store";
-import toast from "react-hot-toast";
-import Web3 from "web3";
+import { Button, Heading } from "@chakra-ui/react";
 import detectEthereumProvider from "@metamask/detect-provider";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import Web3 from "web3";
 import logo from "../../assets/images/logo.png";
+import metamask from "../../assets/images/metamaskpayment.png";
+import momo from "../../assets/images/momopayment.png";
+import vnpay from "../../assets/images/vnpayment.png";
+import { momopayment, vnpayment } from "../../redux/actions/user";
+import { server } from "../../redux/store";
 
 const Subscribe = ({ user }) => {
   const dispatch = useDispatch();
@@ -55,14 +49,14 @@ const Subscribe = ({ user }) => {
   );
   const { error: courseError } = useSelector((state) => state.course);
 
-  const subscribeHandler = async () => {
-    const {
-      data: { key },
-    } = await axios.get(`${server}/razorpaykey`);
+  // const subscribeHandler = async () => {
+  //   const {
+  //     data: { key },
+  //   } = await axios.get(`${server}/razorpaykey`);
 
-    setKey(key);
-    dispatch(buySubscription());
-  };
+  //   setKey(key);
+  //   dispatch(buySubscription());
+  // };
 
   useEffect(() => {
     if (error) {
@@ -111,12 +105,111 @@ const Subscribe = ({ user }) => {
   ]);
 
   return (
-    <Container h="90vh" p="16">
-      <Heading children={`Welcome`} my="8" textAlign={"center"} />
-      <p>
-        <strong>Your wallet:</strong> {account ? account : "Not connect!"}
-      </p>
-      <VStack
+    <div
+      style={{
+        height: "90vh",
+        padding: "16px",
+      }}
+    >
+      <Heading
+        children={`Welcome, Payment here !!`}
+        my="8"
+        textAlign={"center"}
+      />
+      {account && (
+        <p>
+          <strong>Your wallet:</strong> {account}
+        </p>
+      )}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          padding: "0 50px",
+          marginTop: "20px",
+        }}
+      >
+        <div
+          style={{
+            width: "200px",
+            height: "200px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <img src={momo} alt="momo" />
+          <div>
+            <Button
+              marginTop="20px"
+              backgroundColor="#e06666"
+              onClick={() => {
+                dispatch(momopayment(user._id));
+              }}
+            >
+              {" "}
+              Buy now!{" "}
+            </Button>
+          </div>
+        </div>
+        <div
+          style={{
+            width: "200px",
+            height: "200px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <img src={vnpay} alt="vnpay" />
+          <div>
+            <Button
+              marginTop="20px"
+              backgroundColor="#6fa8dc"
+              onClick={() => {
+                dispatch(vnpayment(user._id));
+              }}
+            >
+              {" "}
+              Buy now!{" "}
+            </Button>
+          </div>
+        </div>
+        <div
+          style={{
+            width: "200px",
+            height: "200px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <img src={metamask} alt="metamask" />
+          <div>
+            <Button
+              marginTop="20px"
+              colorScheme={"yellow"}
+              onClick={() => {
+                web3Api.provider
+                  .request({ method: "eth_requestAccounts" })
+                  .then(getAccount)
+                  .catch((error) => {
+                    if (error.code === 4001) {
+                      // EIP-1193 userRejectedRequest error
+                      console.log("Please connect to MetaMask.");
+                    } else {
+                      console.error(error);
+                    }
+                  });
+              }}
+            >
+              {" "}
+              Buy now!{" "}
+            </Button>
+          </div>
+        </div>
+      </div>
+      {/* <VStack
         boxShadow={"lg"}
         alignItems="stretch"
         borderRadius={"lg"}
@@ -131,6 +224,28 @@ const Subscribe = ({ user }) => {
             <Heading size="md" children={"$299 Only"} />
           </VStack>
 
+          <Button
+            my="8"
+            w="full"
+            colorScheme={"yellow"}
+            // onClick={subscribeHandler}
+            onClick={() => {
+              web3Api.provider
+                .request({ method: "eth_requestAccounts" })
+                .then(getAccount)
+                .catch((error) => {
+                  if (error.code === 4001) {
+                    // EIP-1193 userRejectedRequest error
+                    console.log("Please connect to MetaMask.");
+                  } else {
+                    console.error(error);
+                  }
+                });
+            }}
+            isLoading={loading}
+          >
+            Buy Now
+          </Button>
           <Button
             my="8"
             w="full"
@@ -169,8 +284,8 @@ const Subscribe = ({ user }) => {
             children={"*Terms & Conditions Apply"}
           />
         </Box>
-      </VStack>
-    </Container>
+      </VStack> */}
+    </div>
   );
 };
 
