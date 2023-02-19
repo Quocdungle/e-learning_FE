@@ -49,15 +49,6 @@ const Subscribe = ({ user }) => {
   );
   const { error: courseError } = useSelector((state) => state.course);
 
-  // const subscribeHandler = async () => {
-  //   const {
-  //     data: { key },
-  //   } = await axios.get(`${server}/razorpaykey`);
-
-  //   setKey(key);
-  //   dispatch(buySubscription());
-  // };
-
   useEffect(() => {
     if (error) {
       toast.error(error);
