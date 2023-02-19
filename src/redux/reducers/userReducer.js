@@ -1,9 +1,13 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer } from "@reduxjs/toolkit";
+import { storageKeys } from "../../constants/storageKeys";
 
 export const userReducer = createReducer(
-  {},
   {
-    loginRequest: state => {
+    user: JSON.parse(localStorage.getItem(storageKeys.USER_DATA)) || {},
+    isAuthenticated: localStorage.getItem(storageKeys.IS_AUTHEND) || false,
+  },
+  {
+    loginRequest: (state) => {
       state.loading = true;
     },
     loginSuccess: (state, action) => {
@@ -18,7 +22,7 @@ export const userReducer = createReducer(
       state.error = action.payload;
     },
 
-    registerRequest: state => {
+    registerRequest: (state) => {
       state.loading = true;
     },
     registerSuccess: (state, action) => {
@@ -33,7 +37,7 @@ export const userReducer = createReducer(
       state.error = action.payload;
     },
 
-    logoutRequest: state => {
+    logoutRequest: (state) => {
       state.loading = true;
     },
     logoutSuccess: (state, action) => {
@@ -48,7 +52,7 @@ export const userReducer = createReducer(
       state.error = action.payload;
     },
 
-    loadUserRequest: state => {
+    loadUserRequest: (state) => {
       state.loading = true;
     },
     loadUserSuccess: (state, action) => {
@@ -62,10 +66,10 @@ export const userReducer = createReducer(
       state.error = action.payload;
     },
 
-    clearError: state => {
+    clearError: (state) => {
       state.error = null;
     },
-    clearMessage: state => {
+    clearMessage: (state) => {
       state.message = null;
     },
   }
@@ -74,7 +78,7 @@ export const userReducer = createReducer(
 export const profileReducer = createReducer(
   {},
   {
-    updateProfileRequest: state => {
+    updateProfileRequest: (state) => {
       state.loading = true;
     },
     updateProfileSuccess: (state, action) => {
@@ -86,7 +90,7 @@ export const profileReducer = createReducer(
       state.error = action.payload;
     },
 
-    updateProfilePictureRequest: state => {
+    updateProfilePictureRequest: (state) => {
       state.loading = true;
     },
     updateProfilePictureSuccess: (state, action) => {
@@ -98,7 +102,7 @@ export const profileReducer = createReducer(
       state.error = action.payload;
     },
 
-    changePasswordRequest: state => {
+    changePasswordRequest: (state) => {
       state.loading = true;
     },
     changePasswordSuccess: (state, action) => {
@@ -110,7 +114,7 @@ export const profileReducer = createReducer(
       state.error = action.payload;
     },
 
-    forgetPasswordRequest: state => {
+    forgetPasswordRequest: (state) => {
       state.loading = true;
     },
     forgetPasswordSuccess: (state, action) => {
@@ -122,7 +126,7 @@ export const profileReducer = createReducer(
       state.error = action.payload;
     },
 
-    resetPasswordRequest: state => {
+    resetPasswordRequest: (state) => {
       state.loading = true;
     },
     resetPasswordSuccess: (state, action) => {
@@ -134,7 +138,7 @@ export const profileReducer = createReducer(
       state.error = action.payload;
     },
 
-    removeFromPlaylistRequest: state => {
+    removeFromPlaylistRequest: (state) => {
       state.loading = true;
     },
     removeFromPlaylistSuccess: (state, action) => {
@@ -146,10 +150,10 @@ export const profileReducer = createReducer(
       state.error = action.payload;
     },
 
-    clearError: state => {
+    clearError: (state) => {
       state.error = null;
     },
-    clearMessage: state => {
+    clearMessage: (state) => {
       state.message = null;
     },
   }
@@ -158,7 +162,7 @@ export const profileReducer = createReducer(
 export const subscriptionReducer = createReducer(
   {},
   {
-    buySubscriptionRequest: state => {
+    buySubscriptionRequest: (state) => {
       state.loading = true;
     },
     buySubscriptionSuccess: (state, action) => {
@@ -170,7 +174,7 @@ export const subscriptionReducer = createReducer(
       state.error = action.payload;
     },
 
-    cancelSubscriptionRequest: state => {
+    cancelSubscriptionRequest: (state) => {
       state.loading = true;
     },
     cancelSubscriptionSuccess: (state, action) => {
@@ -181,10 +185,10 @@ export const subscriptionReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
-    clearError: state => {
+    clearError: (state) => {
       state.error = null;
     },
-    clearMessage: state => {
+    clearMessage: (state) => {
       state.message = null;
     },
   }

@@ -1,5 +1,6 @@
 import { server } from "../store";
 import axios from "axios";
+import { storageKeys } from "../../constants/storageKeys";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -16,6 +17,8 @@ export const login = (email, password) => async (dispatch) => {
         withCredentials: true,
       }
     );
+    localStorage.setItem(storageKeys.USER_DATA, JSON.stringify(data.user));
+    localStorage.setItem(storageKeys.IS_AUTHEND, true);
 
     dispatch({ type: "loginSuccess", payload: data });
   } catch (error) {
