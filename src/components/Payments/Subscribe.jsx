@@ -108,7 +108,11 @@ const Subscribe = ({ user }) => {
         textAlign={"center"}
       />
       {account && (
-        <p>
+        <p
+          style={{
+            textAlign: "center",
+          }}
+        >
           <strong>Your wallet:</strong> {account}
         </p>
       )}
