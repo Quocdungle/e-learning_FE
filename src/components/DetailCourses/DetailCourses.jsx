@@ -49,7 +49,6 @@ const DetailCourses = ({ isAuthenticated, user }) => {
       dispatch({ type: "clearMessage" });
     }
   }, [dispatch, error, message]);
-  // console.log(courses);
   useEffect(() => {
     // eslint-disable-next-line array-callback-return
     courses.map((item) => {

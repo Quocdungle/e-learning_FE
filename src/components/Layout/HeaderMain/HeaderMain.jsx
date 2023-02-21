@@ -41,6 +41,7 @@ function HeaderMain({ isAuthenticated = false, user }) {
 
   const logoutHandler = () => {
     dispatch(logout());
+    navigate("/");
   };
   return (
     <div className={cx("wrapper")}>

@@ -12,7 +12,7 @@ import {
 import React from "react";
 import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../../redux/actions/user";
 
 const LinkButton = ({ url = "/", title = "Home", onClose }) => (
@@ -22,6 +22,7 @@ const LinkButton = ({ url = "/", title = "Home", onClose }) => (
 );
 
 const Header = ({ isAuthenticated = false, user }) => {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const Header = ({ isAuthenticated = false, user }) => {
   const logoutHandler = () => {
     onClose();
     dispatch(logout());
+    navigate("/");
   };
 
   return (

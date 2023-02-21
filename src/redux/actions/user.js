@@ -55,6 +55,8 @@ export const loadUser = () => async (dispatch) => {
         withCredentials: true,
       }
     );
+    localStorage.setItem(storageKeys.USER_DATA, JSON.stringify(data.user));
+    localStorage.setItem(storageKeys.IS_AUTHEND, true);
     dispatch({ type: "loadUserSuccess", payload: data.user });
   } catch (error) {
     dispatch({ type: "loadUserFail", payload: error.response.data.message });
@@ -69,10 +71,10 @@ export const logout = () => async (dispatch) => {
       withCredentials: true,
     });
     localStorage.removeItem(storageKeys.USER_DATA);
-    localStorage.removeItems(storageKeys.IS_AUTHEND);
+    localStorage.removeItem(storageKeys.IS_AUTHEND);
     dispatch({ type: "logoutSuccess", payload: data.message });
   } catch (error) {
-    dispatch({ type: "logoutFail", payload: error.response.data.message });
+    dispatch({ type: "logoutFail", payload: error?.response?.data?.message });
   }
 };
 

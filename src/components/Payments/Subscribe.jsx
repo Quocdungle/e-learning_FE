@@ -3,16 +3,23 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Web3 from "web3";
 import logo from "../../assets/images/logo.png";
 import metamask from "../../assets/images/metamaskpayment.png";
 import momo from "../../assets/images/momopayment.png";
 import vnpay from "../../assets/images/vnpayment.png";
-import { momopayment, vnpayment } from "../../redux/actions/user";
+import {
+  buySubscription,
+  loadUser,
+  momopayment,
+  vnpayment,
+} from "../../redux/actions/user";
 import { server } from "../../redux/store";
 
 const Subscribe = ({ user }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigate();
   const [key, setKey] = useState("");
   const [web3Api, setWeb3Api] = useState({
     provider: null,
@@ -35,7 +42,17 @@ const Subscribe = ({ user }) => {
   }, []);
   const getAccount = async () => {
     const accounts = await web3Api.web3.eth.getAccounts();
+
     setAccount(accounts[0]);
+  };
+  const handleSubmit = async () => {
+    await dispatch(buySubscription());
+    toast.success("Buy sucessfully!!");
+
+    await dispatch(loadUser());
+    setTimeout(() => {
+      navigation("/courses");
+    }, 500);
   };
   useEffect(() => {
     const getAccount = async () => {
@@ -50,10 +67,10 @@ const Subscribe = ({ user }) => {
   const { error: courseError } = useSelector((state) => state.course);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch({ type: "clearError" });
-    }
+    // if (error) {
+    //   toast.error(error);
+    //   dispatch({ type: "clearError" });
+    // }
     if (courseError) {
       toast.error(courseError);
       dispatch({ type: "clearError" });
@@ -116,94 +133,128 @@ const Subscribe = ({ user }) => {
           <strong>Your wallet:</strong> {account}
         </p>
       )}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          padding: "0 50px",
-          marginTop: "20px",
-        }}
-      >
+      {!account ? (
         <div
           style={{
-            width: "200px",
-            height: "200px",
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            justifyContent: "space-evenly",
+            padding: "0 50px",
+            marginTop: "20px",
           }}
         >
-          <img src={momo} alt="momo" />
-          <div>
-            <Button
-              marginTop="20px"
-              backgroundColor="#e06666"
-              onClick={() => {
-                dispatch(momopayment(user._id));
-              }}
-            >
-              {" "}
-              Buy now!{" "}
-            </Button>
+          <div
+            style={{
+              width: "200px",
+              height: "200px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={momo} alt="momo" />
+            <div>
+              <Button
+                marginTop="20px"
+                backgroundColor="#e06666"
+                onClick={() => {
+                  dispatch(momopayment(user._id));
+                }}
+              >
+                {" "}
+                Buy now!{" "}
+              </Button>
+            </div>
+          </div>
+          <div
+            style={{
+              width: "200px",
+              height: "200px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={vnpay} alt="vnpay" />
+            <div>
+              <Button
+                marginTop="20px"
+                backgroundColor="#6fa8dc"
+                onClick={() => {
+                  dispatch(vnpayment(user._id));
+                }}
+              >
+                {" "}
+                Buy now!{" "}
+              </Button>
+            </div>
+          </div>
+          <div
+            style={{
+              width: "200px",
+              height: "200px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={metamask} alt="metamask" />
+            <div>
+              <Button
+                marginTop="20px"
+                colorScheme={"yellow"}
+                onClick={() => {
+                  web3Api.provider
+                    .request({ method: "eth_requestAccounts" })
+                    .then(getAccount)
+                    .catch((error) => {
+                      if (error.code === 4001) {
+                        // EIP-1193 userRejectedRequest error
+                        console.log("Please connect to MetaMask.");
+                      } else {
+                        console.error(error);
+                      }
+                    });
+                }}
+              >
+                {" "}
+                Buy now!{" "}
+              </Button>
+            </div>
           </div>
         </div>
+      ) : (
         <div
           style={{
-            width: "200px",
-            height: "200px",
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            justifyContent: "space-evenly",
+            padding: "0 50px",
+            marginTop: "20px",
           }}
         >
-          <img src={vnpay} alt="vnpay" />
-          <div>
-            <Button
-              marginTop="20px"
-              backgroundColor="#6fa8dc"
-              onClick={() => {
-                dispatch(vnpayment(user._id));
-              }}
-            >
-              {" "}
-              Buy now!{" "}
-            </Button>
+          <div
+            style={{
+              width: "200px",
+              height: "200px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={metamask} alt="metamask" />
+            <div>
+              <Button
+                marginTop="20px"
+                colorScheme={"yellow"}
+                onClick={handleSubmit}
+              >
+                {" "}
+                Buy now!{" "}
+              </Button>
+            </div>
           </div>
         </div>
-        <div
-          style={{
-            width: "200px",
-            height: "200px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <img src={metamask} alt="metamask" />
-          <div>
-            <Button
-              marginTop="20px"
-              colorScheme={"yellow"}
-              onClick={() => {
-                web3Api.provider
-                  .request({ method: "eth_requestAccounts" })
-                  .then(getAccount)
-                  .catch((error) => {
-                    if (error.code === 4001) {
-                      // EIP-1193 userRejectedRequest error
-                      console.log("Please connect to MetaMask.");
-                    } else {
-                      console.error(error);
-                    }
-                  });
-              }}
-            >
-              {" "}
-              Buy now!{" "}
-            </Button>
-          </div>
-        </div>
-      </div>
+      )}
+
       {/* <VStack
         boxShadow={"lg"}
         alignItems="stretch"

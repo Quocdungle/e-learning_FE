@@ -46,7 +46,6 @@ const AdminCourses = () => {
     setCourseTitle(title);
   };
   const deleteButtonHandler = (courseId) => {
-    console.log(courseId);
     dispatch(deleteCourse(courseId));
   };
 
