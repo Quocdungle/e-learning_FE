@@ -34,10 +34,10 @@ const Payment = () => {
   const inputSearch = useRef();
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch({ type: 'clearError' });
-    }
+    // if (error) {
+    //   toast.error(error);
+    //   dispatch({ type: 'clearError' });
+    // }
 
     if (message) {
       toast.success(message);

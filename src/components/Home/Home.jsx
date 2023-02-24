@@ -47,13 +47,15 @@ const Home = () => {
   useEffect(() => {
     dispatch(getAllCourses());
     dispatch(getRecommendationCourse(userId));
-  }, []);
+    console.log('vao day');
+  }, [userId, dispatch, courseRecommend]);
 
-  useEffect(() => {
-    if (userId) {
-      setCourses(courseRecommend);
-    }
-  }, [courseRecommend, userId]);
+  // useEffect(() => {
+  //   if (userId) {
+  //     setCourses(courseRecommend);
+  //     console.log('vao day 2');
+  //   }
+  // }, [courseRecommend, userId]);
 
   return (
     <section className='home'>
@@ -138,7 +140,7 @@ const Home = () => {
         <h1>Recommend For You </h1>
         <hr />
         <div className='slider'>
-          {courses?.map((course) => (
+          {courseRecommend?.map((course) => (
             <div
               className='slide'
               onClick={() => navigate(`/detailcourse/${course._id}`)}

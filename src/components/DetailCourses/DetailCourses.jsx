@@ -237,7 +237,12 @@ const DetailCourses = ({ isAuthenticated, user }) => {
                 </div>
               )}
             {isAuthenticated && user.subscription?.status !== 'active' && (
-              <div style={{ fontSize: '16px' }}> Buy course to rating !! </div>
+              <>
+                <div style={{ fontSize: '16px', marginBottom: '10px' }}>
+                  Buy course to rating !!
+                </div>
+                <hr />
+              </>
             )}
             {rateList.map((item, i) => (
               <div className='commentBox' key={i}>

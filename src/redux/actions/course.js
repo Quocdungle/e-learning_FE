@@ -1,32 +1,31 @@
-import { server } from "../store";
-import axios from "axios";
-
+import { server } from '../store';
+import axios from 'axios';
 
 export const getRecommendationCourse = (userId) => async (dispatch) => {
   try {
-    dispatch({ type: "getCourseRecommendRequest" });
+    dispatch({ type: 'getCourseRecommendRequest' });
 
     const { data } = await axios.get(`${server}/recommendation/${userId}`);
-    dispatch({ type: "getCourseRecommendSuccess", payload: data });
+    dispatch({ type: 'getCourseRecommendSuccess', payload: data });
   } catch (error) {
     console.log('Failed to get data');
   }
-}
+};
 
 export const getAllCourses =
-  (category = "", keyword = "") =>
+  (category = '', keyword = '') =>
   async (dispatch) => {
     try {
-      dispatch({ type: "allCoursesRequest" });
+      dispatch({ type: 'allCoursesRequest' });
 
       const { data } = await axios.get(
         `${server}/courses?keyword=${keyword}&category=${category}`
       );
 
-      dispatch({ type: "allCoursesSuccess", payload: data.courses });
+      dispatch({ type: 'allCoursesSuccess', payload: data.courses });
     } catch (error) {
       dispatch({
-        type: "allCoursesFail",
+        type: 'allCoursesFail',
         payload: error.response.data.message,
       });
     }
@@ -34,32 +33,32 @@ export const getAllCourses =
 
 export const getCourseLectures = (id) => async (dispatch) => {
   try {
-    dispatch({ type: "getCourseRequest" });
+    dispatch({ type: 'getCourseRequest' });
 
     const { data } = await axios.get(`${server}/course/${id}`, {
       withCredentials: true,
     });
 
-    dispatch({ type: "getCourseSuccess", payload: data.lectures });
+    dispatch({ type: 'getCourseSuccess', payload: data.lectures });
   } catch (error) {
-    dispatch({
-      type: "getCourseFail",
-      payload: error.response.data.message,
-    });
+    // dispatch({
+    //   type: "getCourseFail",
+    //   payload: error.response.data.message,
+    // });
   }
 };
 export const addCommentCourse = (dataPost) => async (dispatch) => {
   try {
-    dispatch({ type: "addCommentCourse" });
+    dispatch({ type: 'addCommentCourse' });
 
     const { message } = await axios.post(`${server}/comment`, dataPost, {
       withCredentials: true,
     });
 
-    dispatch({ type: "addCommentSuccess", payload: message });
+    dispatch({ type: 'addCommentSuccess', payload: message });
   } catch (error) {
     dispatch({
-      type: "addCommentFail",
+      type: 'addCommentFail',
       payload: error.response.data.message,
     });
   }
@@ -67,16 +66,16 @@ export const addCommentCourse = (dataPost) => async (dispatch) => {
 
 export const addRatingCourse = (dataPost) => async (dispatch) => {
   try {
-    dispatch({ type: "addRatingCourse" });
+    dispatch({ type: 'addRatingCourse' });
 
     const { message } = await axios.post(`${server}/rating`, dataPost, {
       withCredentials: true,
     });
 
-    dispatch({ type: "addRatingSuccess", payload: message });
+    dispatch({ type: 'addRatingSuccess', payload: message });
   } catch (error) {
     dispatch({
-      type: "addRatingFail",
+      type: 'addRatingFail',
       payload: error.response.data.message,
     });
   }
