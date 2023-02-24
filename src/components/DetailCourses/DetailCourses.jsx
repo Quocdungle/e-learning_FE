@@ -1,5 +1,5 @@
 import { Button, Container, Stack } from '@chakra-ui/react';
-import { Input, Rate, Tabs } from 'antd';
+import { Input, Rate, Tabs, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { RiSendPlaneFill } from 'react-icons/ri';
@@ -34,18 +34,23 @@ const DetailCourses = ({ isAuthenticated, user }) => {
     await dispatch(addToPlaylist(couseId));
     dispatch(loadUser());
   };
-  const { courses, error, message } = useSelector((state) => state.course);
-  // const { isAuthenticated, user, loading } = useSelector((state) => state.user);
+  const { courses, error, message } = useSelector((state) => state?.course);
 
   useEffect(() => {
     dispatch(getAllCourses());
     if (error) {
-      toast.error(error);
+      notification['error']({
+        message: 'Notification',
+        description: error,
+      });
       dispatch({ type: 'clearError' });
     }
 
     if (message) {
-      toast.success(message);
+      notification['success']({
+        message: 'Notification',
+        description: message,
+      });
       dispatch({ type: 'clearMessage' });
     }
   }, [dispatch, error, message]);
