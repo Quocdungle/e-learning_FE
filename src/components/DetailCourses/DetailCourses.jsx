@@ -1,18 +1,18 @@
-import { Button, Container, Stack } from "@chakra-ui/react";
-import { Input, Rate, Tabs } from "antd";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { RiSendPlaneFill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Button, Container, Stack } from '@chakra-ui/react';
+import { Input, Rate, Tabs } from 'antd';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { RiSendPlaneFill } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
 import {
   addCommentCourse,
   addRatingCourse,
   getAllCourses,
-} from "../../redux/actions/course";
-import { addToPlaylist } from "../../redux/actions/profile";
-import { loadUser } from "../../redux/actions/user";
-import "./courses.scss";
+} from '../../redux/actions/course';
+import { addToPlaylist } from '../../redux/actions/profile';
+import { loadUser } from '../../redux/actions/user';
+import './courses.scss';
 const { TabPane } = Tabs;
 
 const { TextArea } = Input;
@@ -25,11 +25,11 @@ const DetailCourses = ({ isAuthenticated, user }) => {
   const [commentList, setCommentList] = useState([]);
   const [tab, setTab] = useState(1);
 
-  const [commentInput, setCommentInput] = useState("");
+  const [commentInput, setCommentInput] = useState('');
   const [valueRate, setValueRate] = useState(0);
 
   const dispatch = useDispatch();
-  const desc = ["terrible", "bad", "normal", "good", "wonderful"];
+  const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
   const addToPlaylistHandler = async (couseId) => {
     await dispatch(addToPlaylist(couseId));
     dispatch(loadUser());
@@ -41,12 +41,12 @@ const DetailCourses = ({ isAuthenticated, user }) => {
     dispatch(getAllCourses());
     if (error) {
       toast.error(error);
-      dispatch({ type: "clearError" });
+      dispatch({ type: 'clearError' });
     }
 
     if (message) {
       toast.success(message);
-      dispatch({ type: "clearMessage" });
+      dispatch({ type: 'clearMessage' });
     }
   }, [dispatch, error, message]);
   useEffect(() => {
@@ -105,7 +105,7 @@ const DetailCourses = ({ isAuthenticated, user }) => {
     setValueRate(star);
   };
   const onSubmitComment = async () => {
-    if (commentInput !== "") {
+    if (commentInput !== '') {
       await dispatch(
         addCommentCourse({
           comment: {
@@ -117,45 +117,47 @@ const DetailCourses = ({ isAuthenticated, user }) => {
         })
       );
       dispatch(getAllCourses());
-      setCommentInput("");
+      setCommentInput('');
     }
   };
+  console.log(rateList);
+  console.log(user);
   return (
-    <Container minH={"95vh"} maxW="container.lg" paddingY={"8"}>
-      <div className="wrapper">
-        <div className="imageDetail">
-          <img src={detailCourse.poster?.url} alt="" />
+    <Container minH={'95vh'} maxW='container.lg' paddingY={'8'}>
+      <div className='wrapper'>
+        <div className='imageDetail'>
+          <img src={detailCourse.poster?.url} alt='' />
         </div>
-        <div className="informationDetail">
-          <p className="title">{detailCourse.title}</p>
-          <span className="id">Course ID: {idCourse}</span>
+        <div className='informationDetail'>
+          <p className='title'>{detailCourse.title}</p>
+          <span className='id'>Course ID: {idCourse}</span>
           <hr />
-          <div className="ratings">
+          <div className='ratings'>
             <Rate allowHalf disabled value={totalRate} />
           </div>
           <hr />
           <Stack
-            direction={["column", "row"]}
-            alignItems="center"
-            marginTop={"20px"}
-            marginBottom={"20px"}
+            direction={['column', 'row']}
+            alignItems='center'
+            marginTop={'20px'}
+            marginBottom={'20px'}
           >
             <Link to={`/course/${idCourse}`}>
-              <Button colorScheme={"yellow"}>Watch Now</Button>
+              <Button colorScheme={'yellow'}>Watch Now</Button>
             </Link>
             <Button
               // isLoading={loading}
-              variant={"ghost"}
-              colorScheme={"yellow"}
+              variant={'ghost'}
+              colorScheme={'yellow'}
               onClick={() => addToPlaylistHandler(idCourse)}
             >
               Add to playlist
             </Button>
           </Stack>
-          <div className="description">
+          <div className='description'>
             <p>Created By: {detailCourse.createdBy} </p>
           </div>
-          <div className="description">
+          <div className='description'>
             <p>Description: </p>
             <h1>{detailCourse.description}</h1>
           </div>
@@ -164,54 +166,55 @@ const DetailCourses = ({ isAuthenticated, user }) => {
       <Tabs
         defaultActiveKey={tab}
         onChange={onTabsChange}
-        style={{ marginTop: "20px" }}
+        style={{ marginTop: '20px' }}
       >
-        <TabPane tab="Comments" key="1">
-          <div className="comments">
+        <TabPane tab='Comments' key='1'>
+          <div className='comments'>
             {isAuthenticated && (
-              <div className="commentBox">
-                <div className="avatar">
-                  <img src={user.avatar.url} alt="" />
+              <div className='commentBox'>
+                <div className='avatar'>
+                  <img src={user.avatar.url} alt='' />
                 </div>
-                <div className="inforUser">
+                <div className='inforUser'>
                   <TextArea
-                    placeholder="Type comment..."
+                    placeholder='Type comment...'
                     rows={2}
                     style={{
-                      width: "100%",
+                      width: '100%',
                     }}
                     value={commentInput}
                     onChange={(e) => setCommentInput(e.target.value)}
                   />
                 </div>
-                <div className="icon" onClick={onSubmitComment}>
-                  <RiSendPlaneFill color="blue" size={30} />
+                <div className='icon' onClick={onSubmitComment}>
+                  <RiSendPlaneFill color='blue' size={30} />
                 </div>
               </div>
             )}
             {commentList.map((item, i) => (
-              <div className="commentBox" key={i}>
-                <div className="avatar">
-                  <img src={item.userAvt} alt="" />
+              <div className='commentBox' key={i}>
+                <div className='avatar'>
+                  <img src={item.userAvt} alt='' />
                 </div>
-                <div className="inforUser">
-                  <p className="userName">{item.userName}</p>
-                  <p className="comment">{item.title}</p>
+                <div className='inforUser'>
+                  <p className='userName'>{item.userName}</p>
+                  <p className='comment'>{item.title}</p>
                 </div>
               </div>
             ))}
           </div>
         </TabPane>
-        <TabPane tab="Ratings" key="2">
-          <div className="comments">
+        <TabPane tab='Ratings' key='2'>
+          <div className='comments'>
             {isAuthenticated &&
               user.subscription &&
-              user.subscription?.status === "active" && (
-                <div className="commentBox">
-                  <div className="avatar">
-                    <img src={user.avatar.url} alt="" />
+              user.subscription?.status === 'active' &&
+              !rateList.some((item) => item.user_id === user._id) && (
+                <div className='commentBox'>
+                  <div className='avatar'>
+                    <img src={user.avatar.url} alt='' />
                   </div>
-                  <div className="inforUser">
+                  <div className='inforUser'>
                     <Rate
                       tooltips={desc}
                       onChange={handleChangeRate}
@@ -221,14 +224,14 @@ const DetailCourses = ({ isAuthenticated, user }) => {
                 </div>
               )}
             {rateList.map((item, i) => (
-              <div className="commentBox" key={i}>
-                <div className="avatar">
-                  <img src={item.userAvt} alt="" />
+              <div className='commentBox' key={i}>
+                <div className='avatar'>
+                  <img src={item.userAvt} alt='' />
                 </div>
-                <div className="inforUser">
-                  <p className="userName">{item.userName}</p>
+                <div className='inforUser'>
+                  <p className='userName'>{item.userName}</p>
 
-                  <Rate disabled value={item.point} />
+                  <Rate disabled tooltips={desc} value={item.point} />
                 </div>
               </div>
             ))}
