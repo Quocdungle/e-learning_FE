@@ -120,8 +120,7 @@ const DetailCourses = ({ isAuthenticated, user }) => {
       setCommentInput('');
     }
   };
-  console.log(rateList);
-  console.log(user);
+
   return (
     <Container minH={'95vh'} maxW='container.lg' paddingY={'8'}>
       <div className='wrapper'>
@@ -132,8 +131,22 @@ const DetailCourses = ({ isAuthenticated, user }) => {
           <p className='title'>{detailCourse.title}</p>
           <span className='id'>Course ID: {idCourse}</span>
           <hr />
-          <div className='ratings'>
+          <div
+            className='ratings'
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '18px',
+            }}
+          >
             <Rate allowHalf disabled value={totalRate} />
+            <div
+              style={{
+                marginLeft: '10px',
+              }}
+            >
+              ({totalRate.toFixed(1)})
+            </div>
           </div>
           <hr />
           <Stack
@@ -223,6 +236,9 @@ const DetailCourses = ({ isAuthenticated, user }) => {
                   </div>
                 </div>
               )}
+            {isAuthenticated && user.subscription?.status !== 'active' && (
+              <div style={{ fontSize: '16px' }}> Buy course to rating !! </div>
+            )}
             {rateList.map((item, i) => (
               <div className='commentBox' key={i}>
                 <div className='avatar'>
